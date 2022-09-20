@@ -41,6 +41,14 @@ projeto web API da disciplina de desenvolvimento Microsoft
 
     - builder.Services.AddDbContext<DataContext>(options => options.UseSqlite("DataSource=database.db"));
     
+ >   Adicionar uma nova migração no Projeto (primaira vez cria uma migração inicial )
+
+    - dotnet ef migrations add MigracaoInicial
+    
+ >  Atualizar o banco de dados conforme a última migração (primeira vez cria o arquivo do banco )
+
+     - dotnet ef database update
+    
     
  
  
