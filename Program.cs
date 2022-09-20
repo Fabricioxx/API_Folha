@@ -1,3 +1,6 @@
+using Microsoft.EntityFrameworkCore;
+using Data; //DataContext
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -5,7 +8,14 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+//builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new() { Title = "My API_Folha", Version = "v1" });
+});
+
+//configurado no arquivo DataContext.cs e banco de dados sqlite
+builder.Services.AddDbContext<DataContext>(options => options.UseSqlite("DataSource=database.db"));
 
 var app = builder.Build();
 
