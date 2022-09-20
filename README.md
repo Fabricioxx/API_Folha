@@ -37,6 +37,11 @@ projeto web API da disciplina de desenvolvimento Microsoft
     - dotnet add package Microsoft.EntityFrameworkCore.SqLite
     - dotnet add package Microsoft.EntityFrameworkCore.Design
  
+ > Criar o metodo na classe program.cs para o arquivo DataContext.cs e banco de dados sqlite
+
+    - builder.Services.AddDbContext<DataContext>(options => options.UseSqlite("DataSource=database.db"));
+    
+    
  
  
     
