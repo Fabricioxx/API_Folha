@@ -3,8 +3,8 @@ projeto web API da disciplina de desenvolvimento Microsoft
 
 > [ Comandos Terminal VSCode ](https://clover-tailor-90b.notion.site/CLI-C-ed19b7637e21473282fa6c0e400ff925)
 
-dotnet --version 
-6.0.400
+     - dotnet --version 
+      - 6.0.400
 
 
 ### Passo a Passo
@@ -14,17 +14,32 @@ dotnet --version
 
 > Criar um Projeto no vscode Terminal
 
-  - dotnet new webapi --name NomeDoProjeto 
-  - dotnet new web -o nomeProjeto -f net5.0 (para escolher a versão )
+    - dotnet new webapi --name NomeDoProjeto 
+    - dotnet new web -o nomeProjeto -f net5.0 (para escolher a versão )
   
 > Criar as Pastas Model e Controllers e suas classes
 
- * Classe Model
+ * Pasta Model
+ 
     - Funcionario.cs
     - FolhaPagamneto.cs
     
- * Classe Controllers
+ * Pasta Controllers
  
     - FuncionarioController.cs
+    
+  * Pasta Data
+  
+    - DataContext.cs
+    
+ > Baixar os pacotes do Microsoft.EntityFrameworkCore
+ 
+    - dotnet add package Microsoft.EntityFrameworkCore.SqLite
+    - dotnet add package Microsoft.EntityFrameworkCore.Design
+ 
+ 
+ 
+    
+   
   
   
