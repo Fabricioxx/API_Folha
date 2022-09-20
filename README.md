@@ -1,7 +1,7 @@
 # API_Folha
 projeto web API da disciplina de desenvolvimento Microsoft
 
-> [ Comandos Terminal VSCode ](https://www.notion.so/CLI-C-ed19b7637e21473282fa6c0e400ff925)
+> [ Comandos Terminal VSCode ](https://clover-tailor-90b.notion.site/CLI-C-ed19b7637e21473282fa6c0e400ff925)
 
 dotnet --version 
 6.0.400
