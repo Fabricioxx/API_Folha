@@ -15,7 +15,7 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 //configurado no arquivo DataContext.cs e banco de dados sqlite
-builder.Services.AddDbContext<DataContext>(options => options.UseSqlite("DataSource=database.db"));
+builder.Services.AddDbContext<DataContext>(options => options.UseSqlite("DataSource=database.db;Cache=shared"));
 
 var app = builder.Build();
 

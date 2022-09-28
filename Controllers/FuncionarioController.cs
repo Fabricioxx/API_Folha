@@ -1,6 +1,7 @@
 using System;
 using Microsoft.AspNetCore.Mvc;
 using Model;
+using Data;
 namespace Controllers
 {
     
@@ -8,18 +9,32 @@ namespace Controllers
     [Route("api/funcionario")]
     public class FuncionarioController : ControllerBase
     {
+            //readonly impede que a variável seja alterada por outra classe
+           private readonly DataContext _context;
 
-        //READ ALL
+
+              //Construtor da classe FuncionarioController que recebe um DataContext
+              public FuncionarioController(DataContext context)//
+              {
+                _context = context;
+              }
+
+
+        //READ ALL - GET http://localhost:5001/api/funcionario/listar
         [HttpGet]
         [Route("listar")]
-        public IActionResult Listar() => Ok("Listar");
+        public IActionResult Listar() => Ok(_context.Funcionarios.ToList()); // retorna um Ok com a lista de funcionários
 
-        //CREATE
-         [HttpPost]
+        //POST CREATE
+        [HttpPost]
         [Route("cadastrar")]
         public IActionResult Cadastrar([FromBody] Funcionario funcionario){
 
-            return Created("", funcionario);
+
+            _context.Funcionarios.Add(funcionario); //adiciona o funcionário no contexto
+            _context.SaveChanges(); //salva as alterações no banco de dados
+
+            return Created("", funcionario); //retorna um Created com o funcionário cadastrado
         }
 
         
@@ -28,7 +43,20 @@ namespace Controllers
         [Route("buscar/{cpf}")]
         public IActionResult Buscar([FromRoute] string cpf){
                 
-                return Ok("FUNCIONARIO BUSCADO");
+            Funcionario funcionario = _context.Funcionarios.FirstOrDefault(f => f.Cpf == cpf); //busca o funcionário no banco de dados
+
+            if(funcionario == null){
+
+                return NotFound("FUNCIONARIO NÃO ENCONTRADO"); //retorna um NotFound caso o funcionário não seja encontrado
+
+            }
+            else
+            {
+
+                return Ok(funcionario); //retorna um Ok com o funcionário encontrado
+                
+            }
+                
         }
 
 
@@ -37,8 +65,18 @@ namespace Controllers
         [Route("deletar/{id}")]
         public IActionResult Deletar([FromRoute] int id){
 
+           Funcionario funcionario = _context.Funcionarios.Find(id); //busca o funcionário no banco de dados
 
-            return Ok("FUNCIONARIO DELETADO");
+            if(funcionario == null){
+
+                return NotFound("FUNCIONARIO NÃO ENCONTRADO"); //retorna um NotFound caso o funcionário não seja encontrado
+            }
+            else
+            {
+                _context.Funcionarios.Remove(funcionario); //remove o funcionário do contexto
+                _context.SaveChanges(); //salva as alterações no banco de dados
+                return Ok("FUNCIONARIO DELETADO"); //retorna um Ok com a mensagem de funcionário deletado 
+            }
         }
 
 
@@ -47,8 +85,19 @@ namespace Controllers
         [HttpPatch]
         [Route("atualizar/{id}")]
         public IActionResult Atualizar([FromRoute] int id, [FromBody] Funcionario funcionario){
+ 
+           
+            if(funcionario == null || funcionario.Id != id){
 
-            return Ok("FUNCIONARIO ATUALIZADO");
+                return BadRequest("FUNCIONARIO NÃO ENCONTRADO"); //retorna um BadRequest caso o funcionário não seja encontrado
+            }
+            else
+            {
+                _context.Funcionarios.Update(funcionario); //atualiza o funcionário no contexto
+                _context.SaveChanges(); //salva as alterações no banco de dados
+                return Ok("FUNCIONARIO ATUALIZADO"); //retorna um Ok com a mensagem de funcionário atualizado
+            }
+           
         }
 
 
