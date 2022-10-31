@@ -3,6 +3,7 @@ using System;
 using Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API_Folha.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20221031025422_continue")]
+    partial class @continue
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "6.0.9");
@@ -23,20 +25,11 @@ namespace API_Folha.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("Ano")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTime?>("CriadoEm")
+                    b.Property<DateTime?>("Data")
                         .HasColumnType("TEXT");
-
-                    b.Property<double?>("Fgts")
-                        .HasColumnType("REAL");
 
                     b.Property<int?>("FuncionarioId")
                         .HasColumnType("INTEGER");
-
-                    b.Property<double>("HorasTrabalhadas")
-                        .HasColumnType("REAL");
 
                     b.Property<double?>("Inss")
                         .HasColumnType("REAL");
@@ -44,16 +37,10 @@ namespace API_Folha.Migrations
                     b.Property<double?>("Ir")
                         .HasColumnType("REAL");
 
-                    b.Property<int>("Mes")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<double?>("SalarioBruto")
+                    b.Property<double?>("Salario")
                         .HasColumnType("REAL");
 
                     b.Property<double?>("SalarioLiquido")
-                        .HasColumnType("REAL");
-
-                    b.Property<double>("ValorHora")
                         .HasColumnType("REAL");
 
                     b.HasKey("Id");

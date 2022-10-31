@@ -9,13 +9,13 @@ namespace Validations
 {          // classe que valida se o cpf já está em uso
     public class CpfEmUso : ValidationAttribute
     {
-        protected override ValidationResult IsValid(object value, ValidationContext validationContext)
+        protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
         {
-            var context = (DataContext)validationContext.GetService(typeof(DataContext)); // pega o contexto do banco de dados
+            DataContext? context = (DataContext?)validationContext.GetService(typeof(DataContext)); // pega o contexto do banco de dados
 
-            var cpf = (string)value; // pega o valor do cpf
+            var cpf = (string?)value; // pega o valor do cpf
 
-            var Funcionario = context.Funcionarios.FirstOrDefault(f => f.Cpf == cpf); // procura no banco de dados se o cpf já existe
+            Funcionario? Funcionario = context.Funcionarios.FirstOrDefault(f => f.Cpf == cpf); // procura no banco de dados se o cpf já existe
 
             if (Funcionario != null)
             {

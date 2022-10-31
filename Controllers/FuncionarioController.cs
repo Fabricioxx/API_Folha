@@ -42,8 +42,8 @@ namespace Controllers
          [HttpGet]
         [Route("buscar/{cpf}")]
         public IActionResult Buscar([FromRoute] string cpf){
-                
-            Funcionario funcionario = _context.Funcionarios.FirstOrDefault(f => f.Cpf == cpf); //busca o funcionário no banco de dados
+                                                                 // FirstOrDefault retorna o primeiro elemento da lista que satisfaz a condição
+            Funcionario? funcionario = _context.Funcionarios.FirstOrDefault(f => f.Cpf == cpf); //busca o funcionário no banco de dados pelo cpf
 
             if(funcionario == null){
 
@@ -53,7 +53,7 @@ namespace Controllers
             else
             {
 
-                return Ok(funcionario); //retorna um Ok com o funcionário encontrado
+                return Ok(funcionario); //retorna um Ok com o funcionário encontrado / o swegger irá mostrar o funcionário encontrado em formato JSON
                 
             }
                 
@@ -63,9 +63,9 @@ namespace Controllers
         //DELETE
         [HttpDelete]
         [Route("deletar/{id}")]
-        public IActionResult Deletar([FromRoute] int id){
+        public IActionResult Deletar([FromRoute] int id){ 
 
-           Funcionario funcionario = _context.Funcionarios.Find(id); //busca o funcionário no banco de dados
+           Funcionario? funcionario = _context.Funcionarios.Find(id); //busca o funcionário no banco de dados pelo id
 
             if(funcionario == null){
 

@@ -23,20 +23,27 @@ namespace Controllers
          [Route("calcular/{idFuncionario}")]
          public IActionResult Calcular([FromBody] FolhaPagamento folha, [FromRoute] int idFuncionario)
          {
-             Funcionario funcionario = _context.Funcionarios.FirstOrDefault(f => f.Id == idFuncionario); //busca o funcionário no banco de dados
+             Funcionario? funcionario = _context.Funcionarios.FirstOrDefault(f => f.Id == idFuncionario); //busca o funcionário no banco de dados
              if(funcionario == null)
              {
                  return NotFound("Funcionario não encontrado");
              }
              else
              {
+
+                 folha.FuncionarioId = funcionario.Id;
                  folha.funcionario = funcionario; //atribui o funcionário encontrado ao funcionário da folha
 
-                 folha.Salario = funcionario.Salario; //atribui o salário do funcionário encontrado ao salário da folha
+                 folha.SalarioBruto = funcionario.Salario; //atribui o salário do funcionário encontrado ao salário da folha
 
-                 folha.Inss = folha.Salario * 0.075d; //7.5% do salario
-                    folha.Ir = folha.Salario * 0.05d; //5%
-                 folha.SalarioLiquido = folha.Salario - folha.Inss - folha.Ir; //salario - inss - ir
+                 folha.Inss = folha.SalarioBruto * 0.075d; //7.5% do salario
+                 folha.Ir = folha.SalarioBruto * 0.05d; //5%
+                 folha.SalarioLiquido = folha.SalarioBruto - folha.Inss - folha.Ir; //salario - inss - ir
+
+                 folha.Fgts = folha.SalarioBruto * 0.08d; //8% do salario
+
+                 folha.Ano = DateTime.Now.Year; //ano atual
+                 folha.Mes = DateTime.Now.Month; //mês atual
 
                  _context.FolhaPagamentos.Add(folha); //adiciona a folha no contexto
                  _context.SaveChanges(); //salva as alterações no banco de dados
@@ -51,13 +58,19 @@ namespace Controllers
             [Route("Buscar/{id}")]
             public IActionResult Buscar([FromRoute] int id)
             {
-                FolhaPagamento folha = _context.FolhaPagamentos.FirstOrDefault(f => f.Id == id); //busca a folha no banco de dados
+                FolhaPagamento? folha = _context.FolhaPagamentos.FirstOrDefault(f => f.Id == id); //busca a folha no banco de dados
                 if(folha == null)
                 {
                     return NotFound("Folha não encontrada");
                 }
                 else
                 {
+                    int? idfun = folha.FuncionarioId;
+
+                  Funcionario? funcionario = _context.Funcionarios.FirstOrDefault(f => f.Id == idfun); //busca o funcionário no banco de dados
+
+                    folha.funcionario = funcionario; //atribui o funcionário encontrado ao funcionário da folha
+
                     return Ok(folha); //retorna um Ok com a folha encontrada
                 }
             }
@@ -94,6 +107,15 @@ namespace Controllers
                 }
                 else
                 {
+
+                    for(int i = 0; i < folhas.Count; i++){
+
+                    folhas[i].funcionario = _context.Funcionarios.FirstOrDefault(x => x.Id == folhas[i].FuncionarioId); //busca o funcionário no banco de dados e atribui ao funcionário da folha
+
+                    }
+                    
+
+
                     return Ok(folhas); //retorna um Ok com a folha encontrada
                 }
             }
@@ -104,7 +126,7 @@ namespace Controllers
             [Route("excluir/{id}")]
             public IActionResult Excluir([FromRoute] int id)
             {
-                FolhaPagamento folha = _context.FolhaPagamentos.FirstOrDefault(f => f.Id == id); //busca a folha no banco de dados
+                FolhaPagamento? folha = _context.FolhaPagamentos.FirstOrDefault(f => f.Id == id); //busca a folha no banco de dados
                 if(folha == null)
                 {
                     return NotFound("Folha não encontrada");
